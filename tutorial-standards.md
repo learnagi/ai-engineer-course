@@ -51,16 +51,46 @@ language: "zh-CN"  # 或 "en"
 # 提供清晰的代码示例
 def example():
     """详细的文档字符串，解释功能和参数"""
-    pass
+    return "Hello, World!"
+
+# 运行示例
+print(example())
 ```
+
+**运行结果：**
+```
+Hello, World!
+```
+
+*结果说明：展示代码的基本功能和输出。*
 
 ### 2.2 进阶实现
 ```python
-# 提供更复杂的实现
-class AdvancedExample:
-    """包含完整的注释和文档"""
-    pass
+import numpy as np
+import matplotlib.pyplot as plt
+
+class DataVisualizer:
+    """数据可视化示例类"""
+    def __init__(self, data):
+        self.data = data
+    
+    def plot_distribution(self):
+        plt.hist(self.data, bins=30)
+        plt.title('数据分布图')
+        plt.xlabel('值')
+        plt.ylabel('频率')
+        plt.show()
+
+# 运行示例
+data = np.random.normal(0, 1, 1000)
+visualizer = DataVisualizer(data)
+visualizer.plot_distribution()
 ```
+
+**运行结果：**
+![数据分布图](images/data-distribution.png)
+
+*结果说明：展示了如何创建数据可视化，包括图表输出。*
 
 ## 3. 实战项目
 ### 3.1 项目描述
