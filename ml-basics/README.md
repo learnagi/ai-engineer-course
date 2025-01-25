@@ -17,6 +17,7 @@ language: "zh-CN"
 
 ## 本章小节
 
+### 基础篇
 1. [机器学习简介](introduction.md)
    - 机器学习的定义与应用
    - 核心概念与基本原理
@@ -41,37 +42,57 @@ language: "zh-CN"
    - 正则化技术
    - 高级回归方法
 
-5. [分类算法详解](classification.md)
-   - 逻辑回归
-   - 决策树
-   - 支持向量机
-   - 朴素贝叶斯
+### 分类算法篇
+5. [分类算法概述](classification.md)
+   - 分类算法的定义与应用
+   - 分类算法的评估指标
 
-6. [集成学习方法](ensemble-learning.md)
-   - 随机森林
-   - 梯度提升树
-   - Bagging与Boosting
-   - 模型集成策略
+6. [逻辑回归详解](logistic-regression.md)
+   - 逻辑回归原理
+   - 模型实现与优化
+   - 正则化技术
 
-7. [聚类算法](clustering.md)
-   - K-means聚类
-   - 层次聚类
-   - 密度聚类
-   - 聚类评估方法
+7. [决策树算法详解](decision-tree.md)
+   - 决策树原理
+   - 模型实现与优化
+   - 剪枝技术
 
-8. [降维技术](dimensionality-reduction.md)
-   - 主成分分析(PCA)
-   - 线性判别分析(LDA)
-   - t-SNE
-   - UMAP
+8. [支持向量机详解](svm.md)
+   - 支持向量机原理
+   - 模型实现与优化
+   - 核函数
 
-9. [模型评估与调优](model-evaluation.md)
-   - 评估指标选择
-   - 交叉验证
-   - 超参数优化
-   - 模型诊断
+9. [朴素贝叶斯详解](naive-bayes.md)
+   - 朴素贝叶斯原理
+   - 模型实现与优化
+   - 贝叶斯定理
 
-10. [实战项目：房价预测](house-price-prediction.md)
+### 进阶篇
+10. [集成学习方法](ensemble-learning.md)
+    - 随机森林
+    - 梯度提升树
+    - Bagging与Boosting
+    - 模型集成策略
+
+11. [聚类算法](clustering.md)
+    - K-means聚类
+    - 层次聚类
+    - 密度聚类
+    - 聚类评估方法
+
+12. [降维技术](dimensionality-reduction.md)
+    - 主成分分析(PCA)
+    - 线性判别分析(LDA)
+    - t-SNE
+    - UMAP
+
+13. [模型评估与调优](model-evaluation.md)
+    - 评估指标选择
+    - 交叉验证
+    - 超参数优化
+    - 模型诊断
+
+14. [实战项目：房价预测](house-price-prediction.md)
     - 数据分析与预处理
     - 特征工程实践
     - 模型选择与训练
