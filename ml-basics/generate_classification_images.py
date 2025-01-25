@@ -2,10 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification, make_moons
 from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.svm import SVC
 from sklearn.neighbors import NearestNeighbors
 import os
+import graphviz
 
 # 设置matplotlib样式
 plt.style.use('default')  # 使用默认样式
@@ -174,6 +175,42 @@ def generate_knn_example():
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
 
+def generate_decision_tree_visualization():
+    """生成决策树可视化图片"""
+    from sklearn.tree import export_graphviz
+    import graphviz
+    
+    # 创建示例数据
+    X = np.array([
+        [25, 1, 1, 1],  # 购买
+        [30, 1, 1, 0],  # 购买
+        [20, 0, 0, 0],  # 不购买
+        [35, 0, 1, 1],  # 购买
+        [28, 1, 0, 0],  # 不购买
+    ])
+    y = np.array([1, 1, 0, 1, 0])
+    
+    # 训练决策树
+    model = DecisionTreeClassifier(max_depth=3)
+    model.fit(X, y)
+    
+    # 特征名称和类别名称
+    feature_names = ['年龄', '是否浏览', '是否加购', '是否会员']
+    class_names = ['不购买', '购买']
+    
+    # 导出决策树图
+    dot_data = export_graphviz(
+        model, 
+        feature_names=feature_names,
+        class_names=class_names,
+        filled=True, 
+        rounded=True
+    )
+    
+    # 保存图片
+    graph = graphviz.Source(dot_data)
+    graph.render("images/classification/decision-tree-viz", format="png")
+
 def main():
     """生成所有图片"""
     # 确保图片目录存在
@@ -185,6 +222,7 @@ def main():
     generate_decision_tree_boundary()
     generate_svm_boundary()
     generate_knn_example()
+    generate_decision_tree_visualization()
     
     print("所有图片生成完成！")
 
