@@ -249,6 +249,59 @@ print(f"\n预测价格：{predicted_price[0]:.2f}万元")
 - 房龄系数为负，表示房龄越大，价格越低
 - 楼层系数为正，表示楼层越高，价格越高*
 
+## 多项式回归与过拟合
+
+在实际应用中，数据之间的关系往往不是简单的线性关系。多项式回归通过添加高阶项来拟合更复杂的关系。
+
+#### 多项式特征
+对于单个特征x，我们可以构造多项式特征：[1, x, x², ..., xᵐ]
+- m=1时就是普通的线性回归
+- m>1时可以拟合非线性关系
+- m越大，模型越复杂
+
+```python
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
+
+# 创建9阶多项式特征
+poly = PolynomialFeatures(degree=9)
+X_poly = poly.fit_transform(X)
+
+# 创建并训练模型
+model = make_pipeline(
+    PolynomialFeatures(degree=9),
+    LinearRegression()
+)
+model.fit(X, y)
+```
+
+#### 过拟合问题
+![过拟合示例](https://z1.zve.cn/tutorial/images/polynomial-overfitting.png)
+*不同阶数多项式的拟合效果对比*
+
+当多项式阶数过高时，会出现过拟合现象：
+- 完美拟合训练数据点
+- 在训练数据点之间产生剧烈震荡
+- 对新数据的预测效果很差
+
+例如，对于10个数据点：
+- 使用9阶多项式可以完美拟合所有点
+- 但这样的模型泛化能力很差
+- 权重系数往往非常大
+
+#### 如何解决过拟合？
+1. 降低模型复杂度
+   - 使用更低阶的多项式
+   - 减少特征数量
+
+2. 增加训练数据
+   - 获取更多的样本
+   - 数据增强
+
+3. 使用正则化
+   - 限制权重的大小
+   - 平衡模型复杂度和拟合程度
+
 ## 高级回归方法
 
 在掌握了基础的线性回归和多元线性回归后，我们来探索一些更高级的回归技术。这些方法能够帮助我们处理更复杂的现实问题，比如：
