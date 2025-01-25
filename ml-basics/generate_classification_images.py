@@ -4,6 +4,7 @@ from sklearn.datasets import make_classification, make_moons
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
+from sklearn.neighbors import NearestNeighbors
 import os
 
 # 设置matplotlib样式
@@ -130,6 +131,49 @@ def generate_svm_boundary():
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
 
+def generate_knn_example():
+    """生成KNN分类示例图"""
+    # 生成示例数据
+    X_train = np.array([
+        [10, 2], [8, 3],    # 动作片
+        [2, 8], [3, 10],    # 爱情片
+    ])
+    X_test = np.array([[5, 5]])  # 待分类的电影
+    y_train = np.array([0, 0, 1, 1])  # 0表示动作片，1表示爱情片
+    
+    plt.figure(figsize=(10, 6))
+    
+    # 绘制已知点
+    plt.scatter(X_train[y_train==0, 0], X_train[y_train==0, 1], 
+               c='blue', marker='o', s=100, label='动作片')
+    plt.scatter(X_train[y_train==1, 0], X_train[y_train==1, 1], 
+               c='red', marker='s', s=100, label='爱情片')
+    
+    # 绘制待分类点
+    plt.scatter(X_test[0, 0], X_test[0, 1], 
+               c='gray', marker='*', s=200, label='待分类')
+    
+    # 绘制到最近的3个点的连线
+    nbrs = NearestNeighbors(n_neighbors=3).fit(X_train)
+    distances, indices = nbrs.kneighbors(X_test)
+    
+    for idx in indices[0]:
+        plt.plot([X_test[0, 0], X_train[idx, 0]], 
+                [X_test[0, 1], X_train[idx, 1]], 
+                'k--', alpha=0.3)
+    
+    # 添加标签和标题
+    plt.xlabel('动作场景数量')
+    plt.ylabel('爱情场景数量')
+    plt.title('KNN分类示例 (K=3)')
+    plt.legend()
+    plt.grid(True)
+    
+    # 保存图片
+    save_path = 'images/classification/knn-example.png'
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    plt.close()
+
 def main():
     """生成所有图片"""
     # 确保图片目录存在
@@ -140,6 +184,7 @@ def main():
     generate_logistic_decision_boundary()
     generate_decision_tree_boundary()
     generate_svm_boundary()
+    generate_knn_example()
     
     print("所有图片生成完成！")
 
