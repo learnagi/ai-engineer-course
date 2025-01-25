@@ -346,6 +346,56 @@ elastic_net = ElasticNet(alpha=1.0, l1_ratio=0.5)  # l1_ratio是L1正则化的�
 elastic_net.fit(X, y)
 ```
 
+#### 4. 异方差Ridge回归
+异方差Ridge回归是Ridge回归的一个变体，它不需要对特征进行z-score标准化，而是使用特征的方差作为惩罚项的权重。
+
+##### 数学原理
+损失函数：
+```
+Loss = MSE + λ * Σ(wᵢβᵢ²)
+```
+其中：
+- wᵢ是第i个特征的权重，通常设置为特征的标准差σᵢ
+- λ是正则化强度
+- βᵢ是模型系数
+
+##### 特点
+- 对高方差特征施加更强的惩罚
+- 对低方差特征施加更弱的惩罚
+- 不需要预先进行特征标准化
+
+##### 代码实现
+```python
+import numpy as np
+from sklearn.linear_model import Ridge
+from sklearn.preprocessing import StandardScaler
+
+class HeteroskedasticRidge:
+    def __init__(self, alpha=1.0):
+        self.alpha = alpha
+        
+    def fit(self, X, y):
+        # 计算每个特征的标准差
+        self.feature_std = np.std(X, axis=0)
+        # 使用标准差的倒数作为特征权重
+        weighted_X = X / self.feature_std
+        # 训练Ridge模型
+        self.model = Ridge(alpha=self.alpha)
+        self.model.fit(weighted_X, y)
+        # 还原真实的系数
+        self.coef_ = self.model.coef_ / self.feature_std
+        self.intercept_ = self.model.intercept_
+        return self
+        
+    def predict(self, X):
+        return np.dot(X, self.coef_) + self.intercept_
+
+# 使用示例
+hetero_ridge = HeteroskedasticRidge(alpha=1.0)
+hetero_ridge.fit(X, y)
+predictions = hetero_ridge.predict(X_test)
+```
+
 ### 广义线性模型（GLM）
 
 #### 什么是GLM？
@@ -408,6 +458,67 @@ poisson_reg.fit(X, y)
 - 用于处理正偏态分布的连续数据
 - 适合建模正值且有偏态的数据
 - 常用于建模保险赔付金额
+
+#### 使用statsmodels实现GLM
+```python
+import statsmodels.api as sm
+from statsmodels.genmod.families import Gaussian, Binomial, Poisson, Gamma
+
+# 创建GLM模型（以泊松回归为例）
+poisson_model = sm.GLM(
+    y,  # 因变量
+    sm.add_constant(X),  # 自动添加截距项
+    family=sm.families.Poisson()  # 指定分布族
+)
+
+# 拟合模型
+poisson_results = poisson_model.fit()
+
+# 查看模型摘要
+print(poisson_results.summary())
+
+# 进行预测
+predictions = poisson_results.predict(sm.add_constant(X_new))
+```
+
+#### GLM模型诊断
+1. **残差分析**
+```python
+# 获取残差
+resid = poisson_results.resid_pearson
+
+# 绘制残差图
+import matplotlib.pyplot as plt
+plt.scatter(predictions, resid)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.xlabel('预测值')
+plt.ylabel('Pearson残差')
+plt.title('残差诊断图')
+plt.show()
+```
+
+2. **偏差分析**
+```python
+# 计算偏差
+deviance = poisson_results.deviance
+df = poisson_results.df_resid
+p_value = 1 - stats.chi2.cdf(deviance, df)
+print(f'偏差检验p值：{p_value:.4f}')
+```
+
+3. **影响点分析**
+```python
+# 计算Cook's距离
+influence = poisson_results.get_influence()
+cooks_d = influence.cooks_distance[0]
+
+# 绘制Cook's距离图
+plt.stem(range(len(cooks_d)), cooks_d)
+plt.xlabel('观测编号')
+plt.ylabel("Cook's距离")
+plt.title("Cook's距离图")
+plt.show()
+```
 
 ### 实践建议
 
