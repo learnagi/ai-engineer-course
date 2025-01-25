@@ -7,23 +7,57 @@ estimated_minutes: 90
 language: "zh-CN"
 ---
 
-![线性回归](https://z1.zve.cn/tutorial/images/fee74e0007a21d40cf2b8b517d33c9f3.png)
+![线性回归](https://z1.zve.cn/tutorial/images/linear-regression-intro.png)
 *线性回归是机器学习中最基础也最重要的算法之一*
 
 # 线性回归详解
 
 ## 目录
-- [什么是线性回归？](#什么是线性回归)
-- [线性回归的数学原理](#线性回归的数学原理)
-  - [简单线性回归](#1-简单线性回归)
-  - [如何找到最佳直线？](#2-如何找到最佳直线)
-  - [损失函数：评估直线的好坏](#3-损失函数评估直线的好坏)
-- [实践：预测房价](#实践预测房价)
-- [多元线性回归](#多元线性回归)
-- [过拟合与欠拟合](#过拟合与欠拟合)
-- [实战技巧](#实战技巧)
-- [练习题](#练习题)
-- [参考资源](#参考资源)
+- [线性回归详解](#线性回归详解)
+  - [目录](#目录)
+  - [什么是线性回归？](#什么是线性回归)
+    - [生活中的线性关系](#生活中的线性关系)
+  - [线性回归的数学原理](#线性回归的数学原理)
+    - [1. 简单线性回归](#1-简单线性回归)
+    - [2. 如何找到最佳直线？](#2-如何找到最佳直线)
+    - [3. 损失函数：评估直线的好坏](#3-损失函数评估直线的好坏)
+  - [实践：预测房价](#实践预测房价)
+    - [数据准备](#数据准备)
+    - [要点总结](#要点总结)
+  - [多元线性回归](#多元线性回归)
+  - [高级回归方法](#高级回归方法)
+    - [正则化技术](#正则化技术)
+      - [什么是正则化？](#什么是正则化)
+      - [1. Ridge回归（L2正则化）](#1-ridge回归l2正则化)
+        - [数学原理](#数学原理)
+        - [特点](#特点)
+        - [代码实现](#代码实现)
+      - [2. Lasso回归（L1正则化）](#2-lasso回归l1正则化)
+        - [数学原理](#数学原理-1)
+        - [特点](#特点-1)
+        - [代码实现](#代码实现-1)
+      - [3. Elastic Net（弹性网络）](#3-elastic-net弹性网络)
+        - [数学原理](#数学原理-2)
+        - [使用场景](#使用场景)
+        - [代码实现](#代码实现-2)
+    - [广义线性模型（GLM）](#广义线性模型glm)
+      - [什么是GLM？](#什么是glm)
+      - [GLM的三个核心组件](#glm的三个核心组件)
+      - [常见的GLM类型](#常见的glm类型)
+    - [实践建议](#实践建议)
+    - [小结](#小结)
+  - [过拟合与欠拟合](#过拟合与欠拟合)
+    - [什么是过拟合？](#什么是过拟合)
+    - [如何避免过拟合？](#如何避免过拟合)
+  - [实战技巧](#实战技巧)
+  - [线性回归在实际工作中的应用](#线性回归在实际工作中的应用)
+    - [1. 销售预测](#1-销售预测)
+    - [2. 股票趋势分析](#2-股票趋势分析)
+    - [3. 生产质量控制](#3-生产质量控制)
+    - [4. A/B测试分析](#4-ab测试分析)
+  - [思考题](#思考题)
+  - [练习题](#练习题)
+  - [参考资源](#参考资源)
 
 ## 什么是线性回归？
 
@@ -33,7 +67,7 @@ language: "zh-CN"
 
 这就是最简单的线性关系！线性回归就是找到这条最佳拟合直线的方法。
 
-![线性回归直观解释](https://z1.zve.cn/tutorial/images/4f6cbc99c7e6f945d329b90a0e95e5e2.png)
+![线性回归直观解释](https://z1.zve.cn/tutorial/images/linear-regression-house-price.png)
 *房屋面积与价格的线性关系示例*
 
 ### 生活中的线性关系
@@ -56,7 +90,7 @@ y = wx + b
 - w 是权重（斜率）
 - b 是偏置项（截距）
 
-![线性回归公式解释](https://z1.zve.cn/tutorial/images/87986183df3ce5b8a4e385763314e09b.png)
+![线性回归公式解释](https://z1.zve.cn/tutorial/images/linear-regression-formula.png)
 *线性回归公式的几何意义*
 
 ### 2. 如何找到最佳直线？
@@ -96,8 +130,7 @@ plt.show()
 ```
 
 **运行结果：**
-![线性回归示例](https://z1.zve.cn/tutorial/images/4c7a2ebb2f83ace826db81a13cb44d18.png)
-
+![线性回归示例](https://z1.zve.cn/tutorial/images/linear-regression-example.png)
 *结果说明：图中的蓝点表示实际数据点，红色和绿色虚线表示两种可能的拟合直线。*
 
 ### 3. 损失函数：评估直线的好坏
@@ -107,7 +140,7 @@ plt.show()
 2. 将误差平方（这样正负误差都变成正数）
 3. 求所有平方误差的平均值
 
-![均方误差示意图](https://z1.zve.cn/tutorial/images/00cca07c24931b1087da6c1850a9379b.png)
+![均方误差示意图](https://z1.zve.cn/tutorial/images/mse-explanation.png)
 *均方误差的计算过程*
 
 > 💡 以下代码可以在 Jupyter Notebook 中运行，或保存为 .py 文件在本地 Python 环境中运行。
@@ -247,6 +280,211 @@ print(f"\n预测价格：{predicted_price[0]:.2f}万元")
 - 房龄系数为负，表示房龄越大，价格越低
 - 楼层系数为正，表示楼层越高，价格越高*
 
+## 高级回归方法
+
+在掌握了基础的线性回归和多元线性回归后，我们来探索一些更高级的回归技术。这些方法能够帮助我们处理更复杂的现实问题，比如：
+- 处理高维数据时的过拟合问题
+- 处理非线性关系
+- 处理非正态分布的数据
+
+### 正则化技术
+
+#### 什么是正则化？
+正则化是一种防止模型过拟合的技术。想象你在健身，如果只练习特定的动作（比如仰卧起坐），可能会导致某些肌肉过度发达而其他肌肉不足。正则化就像是一个全身性的训练计划，它通过添加一些约束来确保模型的"全面发展"。
+
+![正则化比较](https://z1.zve.cn/tutorial/images/regularization-comparison.png)
+*不同正则化方法的效果比较*
+
+#### 1. Ridge回归（L2正则化）
+Ridge回归通过添加所有系数平方和的惩罚项来防止过拟合。
+
+##### 数学原理
+Ridge回归的损失函数是：
+```
+Loss = MSE + α * Σ(β²)
+```
+其中：
+- MSE是均方误差
+- α是正则化强度（调节参数）
+- β是模型系数
+
+##### 特点
+- 倾向于让所有特征都有一点影响
+- 适合处理特征间存在多重共线性的情况
+- 不会产生稀疏解（系数不会变成0）
+
+##### 代码实现
+```python
+from sklearn.linear_model import Ridge
+
+# 创建Ridge回归模型
+ridge_model = Ridge(alpha=1.0)  # alpha是正则化强度
+ridge_model.fit(X, y)
+
+# 查看系数
+print("Ridge回归系数：", ridge_model.coef_)
+```
+
+#### 2. Lasso回归（L1正则化）
+Lasso（Least Absolute Shrinkage and Selection Operator）使用系数绝对值和作为惩罚项。
+
+##### 数学原理
+Lasso的损失函数是：
+```
+Loss = MSE + α * Σ|β|
+```
+
+##### 特点
+- 会将不重要的特征系数直接压缩为0
+- 自动进行特征选择
+- 产生稀疏解，适合特征筛选
+
+##### 代码实现
+```python
+from sklearn.linear_model import Lasso
+
+# 创建Lasso回归模型
+lasso_model = Lasso(alpha=1.0)
+lasso_model.fit(X, y)
+
+# 查看哪些特征被选中
+selected_features = [f for f, c in zip(feature_names, lasso_model.coef_) if c != 0]
+print("被选中的特征：", selected_features)
+```
+
+#### 3. Elastic Net（弹性网络）
+Elastic Net结合了Ridge和Lasso的优点，同时使用L1和L2正则化。
+
+##### 数学原理
+损失函数：
+```
+Loss = MSE + α * ρ * Σ|β| + α * (1-ρ) * Σ(β²)
+```
+其中：
+- ρ是L1正则化的比例（0到1之间）
+- (1-ρ)是L2正则化的比例
+
+##### 使用场景
+- 当特征数量远大于样本数量时
+- 特征间存在组群效应时（某些特征高度相关）
+
+##### 代码实现
+```python
+from sklearn.linear_model import ElasticNet
+
+# 创建Elastic Net模型
+elastic_net = ElasticNet(alpha=1.0, l1_ratio=0.5)  # l1_ratio是L1正则化的比例
+elastic_net.fit(X, y)
+```
+
+### 广义线性模型（GLM）
+
+#### 什么是GLM？
+广义线性模型是线性回归的扩展，它允许因变量遵循非正态分布。这就像是给了线性回归一个"变形金刚"的能力，可以适应更多类型的数据。
+
+![GLM概念](https://z1.zve.cn/tutorial/images/glm-concepts.png)
+*GLM的主要组成部分示意图*
+
+#### GLM的三个核心组件
+
+1. **随机分量**
+- 描述因变量Y的概率分布
+- 可以是正态分布、二项分布、泊松分布等
+- 例如：二项分布适合预测是/否的结果
+
+2. **系统分量**
+- 预测变量的线性组合
+- η = β₀ + β₁X₁ + β₂X₂ + ...
+- 就像是传统线性回归的"骨架"
+
+3. **连接函数**
+- 将系统分量与随机分量连接起来
+- 常见的连接函数：
+  - logit函数：用于逻辑回归
+  - log函数：用于泊松回归
+  - identity函数：用于普通线性回归
+
+#### 常见的GLM类型
+
+1. **逻辑回归**
+- 用于二分类问题
+- 使用logit连接函数
+- 预测概率而不是具体值
+
+```python
+from sklearn.linear_model import LogisticRegression
+
+# 创建逻辑回归模型
+log_reg = LogisticRegression()
+log_reg.fit(X, y)
+
+# 预测概率
+probabilities = log_reg.predict_proba(X)
+```
+
+2. **泊松回归**
+- 用于计数数据
+- 使用log连接函数
+- 适合预测事件发生次数
+
+```python
+from sklearn.linear_model import PoissonRegressor
+
+# 创建泊松回归模型
+poisson_reg = PoissonRegressor()
+poisson_reg.fit(X, y)
+```
+
+3. **Gamma回归**
+- 用于处理正偏态分布的连续数据
+- 适合建模正值且有偏态的数据
+- 常用于建模保险赔付金额
+
+### 实践建议
+
+1. **如何选择合适的模型？**
+
+| 问题类型 | 建议模型 | 原因 |
+|---------|---------|------|
+| 特征多，样本少 | Ridge | 防止过拟合，保留所有特征 |
+| 需要特征选择 | Lasso | 自动将不重要特征系数置0 |
+| 特征间有关联 | Elastic Net | 同时具有Ridge和Lasso的优点 |
+| 二分类问题 | 逻辑回归 | 输出概率，适合分类 |
+| 计数数据 | 泊松回归 | 处理非负整数数据 |
+
+2. **模型调优技巧**
+- 使用交叉验证选择最佳正则化参数
+- 在使用GLM时，注意检查数据分布
+- 对特征进行标准化，使正则化更有效
+
+```python
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import GridSearchCV
+
+# 标准化特征
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# 使用网格搜索找最佳参数
+param_grid = {'alpha': [0.1, 1.0, 10.0]}
+ridge = Ridge()
+grid_search = GridSearchCV(ridge, param_grid, cv=5)
+grid_search.fit(X_scaled, y)
+
+print("最佳参数：", grid_search.best_params_)
+```
+
+3. **模型诊断**
+- 检查残差的分布和模式
+- 验证模型假设是否满足
+- 使用不同的评估指标
+
+### 小结
+高级回归方法极大地扩展了线性回归的应用范围：
+- 正则化技术帮助我们处理过拟合问题
+- GLM使我们能够处理各种类型的因变量
+- 不同的模型适合不同的场景，选择合适的模型至关重要
+
 ## 过拟合与欠拟合
 
 ### 什么是过拟合？
@@ -255,7 +493,7 @@ print(f"\n预测价格：{predicted_price[0]:.2f}万元")
 - 理解基本原理 = 良好拟合（能举一反三）
 - 完全不学习 = 欠拟合（所有题目都不会）
 
-![过拟合与欠拟合](https://z1.zve.cn/tutorial/images/031c1dd147d00b1e93622cd378db3eb3.png)
+![过拟合与欠拟合](https://z1.zve.cn/tutorial/images/overfitting-detection.png)
 *不同拟合状态的直观比较*
 
 ### 如何避免过拟合？
