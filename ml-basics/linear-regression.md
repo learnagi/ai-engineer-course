@@ -1,6 +1,7 @@
 ---
 title: "线性回归详解"
 slug: "linear-regression"
+sequence: 3
 description: "零基础入门线性回归：从生活实例到数学原理"
 is_published: true
 estimated_minutes: 90
