@@ -7,7 +7,7 @@ estimated_minutes: 90
 language: "zh-CN"
 ---
 
-![线性回归](images/linear-regression-header.png)
+![线性回归](https://z1.zve.cn/tutorial/images/fee74e0007a21d40cf2b8b517d33c9f3.png)
 *线性回归是机器学习中最基础也最重要的算法之一*
 
 # 线性回归详解
@@ -33,7 +33,7 @@ language: "zh-CN"
 
 这就是最简单的线性关系！线性回归就是找到这条最佳拟合直线的方法。
 
-![线性回归直观解释](images/linear-regression-house-example.png)
+![线性回归直观解释](https://z1.zve.cn/tutorial/images/4f6cbc99c7e6f945d329b90a0e95e5e2.png)
 *房屋面积与价格的线性关系示例*
 
 ### 生活中的线性关系
@@ -56,7 +56,7 @@ y = wx + b
 - w 是权重（斜率）
 - b 是偏置项（截距）
 
-![线性回归公式解释](images/linear-regression-formula.png)
+![线性回归公式解释](https://z1.zve.cn/tutorial/images/87986183df3ce5b8a4e385763314e09b.png)
 *线性回归公式的几何意义*
 
 ### 2. 如何找到最佳直线？
@@ -96,7 +96,7 @@ plt.show()
 ```
 
 **运行结果：**
-![线性回归示例](images/linear-regression-example.png)
+![线性回归示例](https://z1.zve.cn/tutorial/images/4c7a2ebb2f83ace826db81a13cb44d18.png)
 
 *结果说明：图中的蓝点表示实际数据点，红色和绿色虚线表示两种可能的拟合直线。*
 
@@ -107,7 +107,7 @@ plt.show()
 2. 将误差平方（这样正负误差都变成正数）
 3. 求所有平方误差的平均值
 
-![均方误差示意图](images/mse-explanation.png)
+![均方误差示意图](https://z1.zve.cn/tutorial/images/00cca07c24931b1087da6c1850a9379b.png)
 *均方误差的计算过程*
 
 > 💡 以下代码可以在 Jupyter Notebook 中运行，或保存为 .py 文件在本地 Python 环境中运行。
@@ -255,7 +255,7 @@ print(f"\n预测价格：{predicted_price[0]:.2f}万元")
 - 理解基本原理 = 良好拟合（能举一反三）
 - 完全不学习 = 欠拟合（所有题目都不会）
 
-![过拟合与欠拟合](images/overfitting-underfitting.png)
+![过拟合与欠拟合](https://z1.zve.cn/tutorial/images/031c1dd147d00b1e93622cd378db3eb3.png)
 *不同拟合状态的直观比较*
 
 ### 如何避免过拟合？
