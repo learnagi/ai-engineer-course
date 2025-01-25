@@ -116,7 +116,34 @@ model.fit(X, y)
 # 预测概率和类别
 y_prob = model.predict_proba(X)    # 预测概率
 y_pred = model.predict(X)          # 预测类别
+
+# 查看预测概率示例（前5个样本）
+print("预测概率（前5个样本）：")
+print(y_prob[:5])
+# 输出：
+# [[0.89 0.11]
+#  [0.23 0.77]
+#  [0.95 0.05]
+#  [0.01 0.99]
+#  [0.67 0.33]]
+
+# 查看模型性能
+from sklearn.metrics import classification_report
+print("\n分类报告：")
+print(classification_report(y, y_pred))
+# 输出：
+#               precision    recall  f1-score   support
+#            0       0.95      0.94      0.94       483
+#            1       0.94      0.95      0.94       517
+#     accuracy                           0.94      1000
+#    macro avg       0.94      0.94      0.94      1000
+# weighted avg       0.94      0.94      0.94      1000
 ```
+
+从结果可以看出：
+1. 预测概率表示模型对每个类别的置信度
+2. 分类报告显示模型在两个类别上都达到了94%的准确率
+3. 精确率（precision）和召回率（recall）都很平衡，说明模型性能稳定
 
 ### 优缺点分析
 
