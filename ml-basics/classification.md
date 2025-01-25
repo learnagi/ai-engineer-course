@@ -1,16 +1,32 @@
 ---
 title: "分类算法详解"
 slug: "classification"
-description: "深入理解常用分类算法的原理、实现和应用"
+sequence: 5
+description: "从逻辑回归到集成学习，掌握主流分类算法"
 is_published: true
-estimated_minutes: 60
+estimated_minutes: 90
 language: "zh-CN"
 ---
 
-![分类算法](assets/images/ml-basics/classification-header.png)
-*分类是机器学习中最常见的任务之一，需要掌握多种算法的特点和应用场景*
+![分类算法](https://z1.zve.cn/tutorial/classification/classification-overview.png)
+*分类算法是机器学习中最常用的技术之一，让我们系统地学习它们*
 
 # 分类算法详解
+
+## 本节概要
+
+通过本节学习，你将：
+- 理解各种分类算法的原理和数学基础
+- 掌握不同分类器的实现方法和调优技巧
+- 学会选择合适的分类算法解决实际问题
+- 掌握处理不平衡数据集的策略
+- 能够评估和优化分类模型的性能
+
+💡 重点内容：
+- 从线性回归到逻辑回归的推导过程
+- 决策树的生长和剪枝策略
+- 支持向量机的核技巧应用
+- 集成学习提升模型性能
 
 ## 学习目标
 完成本节后，你将能够：
