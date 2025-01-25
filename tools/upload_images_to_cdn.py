@@ -31,7 +31,7 @@ class ImageUploader:
             print("\n或者通过命令行参数提供这些值。")
             sys.exit(1)
             
-        self.q = Auth(self.access_key, self.secret_key)
+        self.auth = Auth(self.access_key, self.secret_key)
         
     def get_file_hash(self, filepath):
         """获取文件的MD5哈希值"""
@@ -42,16 +42,26 @@ class ImageUploader:
         return hasher.hexdigest()
     
     def upload_file(self, local_file):
-        """上传文件到七牛云"""
-        # 使用文件名作为key
-        filename = os.path.basename(local_file)
-        key = f"tutorial/images/{filename}"  # 直接使用原始文件名
-        token = self.q.upload_token(self.bucket_name, key, 3600)
-        
+        """上传单个文件到七牛云"""
         try:
+            # 获取文件名
+            filename = os.path.basename(local_file)
+            
+            # 获取教程名称（从文件路径中提取）
+            # 例如：从 ml-basics/linear-regression/images/model.png 提取 linear-regression
+            tutorial_name = local_file.split('/images/')[0].split('/')[-1]
+            
+            # 构建七牛云上的文件名
+            key = f"tutorial/{tutorial_name}/{filename}"
+            
+            # 生成上传凭证
+            token = self.auth.upload_token(self.bucket_name, key, 3600)
+            
+            # 上传文件
             ret, info = put_file(token, key, local_file)
+            
             if info.status_code == 200:
-                return f"https://{self.domain}/{key}"
+                return f"https://z1.zve.cn/{key}"
             else:
                 print(f"上传失败: {info}")
                 return None
