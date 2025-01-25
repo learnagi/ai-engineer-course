@@ -10,10 +10,11 @@
 ---
 title: "教程标题"
 slug: "tutorial-slug"
+sequence: 1  # 教程在系列中的顺序号
 description: "简短的描述，说明本节内容和学习收益"
 is_published: true
 estimated_minutes: 预计完成时间（分钟）
-language: "zh-CN"
+language: "zh-CN"  # 或 "en"
 ---
 ```
 
@@ -52,27 +53,99 @@ language: "zh-CN"
   - `data-distribution-example.png`
   - `model-comparison.png`
 
-#### 2.2 存储位置
-- 图片统一存放在教程同级的 `images` 目录下
-- 目录结构示例：
-```
-ml-basics/
-  ├── images/
-  │   ├── linear-regression-intro.png
-  │   └── model-comparison.png
-  └── linear-regression.md
-```
+#### 2.2 图片管理流程（SOP）
+
+1. **本地生成**
+   ```python
+   # 在教程目录下创建generate_images.py
+   import matplotlib.pyplot as plt
+   import numpy as np
+   
+   def generate_images():
+       # 1. 设置matplotlib样式
+       plt.style.use('seaborn')
+       plt.rcParams['figure.figsize'] = [10, 6]
+       plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # 支持中文
+       
+       # 2. 生成图片
+       fig, ax = plt.subplots()
+       # ... 绘图代码 ...
+       
+       # 3. 保存到images目录
+       plt.savefig('images/example-plot.png', 
+                  dpi=300, 
+                  bbox_inches='tight',
+                  pad_inches=0.1)
+       plt.close()
+   
+   if __name__ == '__main__':
+       generate_images()
+   ```
+
+2. **目录结构**
+   ```
+   ml-basics/
+   ├── images/                    # 本地图片目录
+   │   ├── classification/        # 按教程分类
+   │   │   ├── overview.png
+   │   │   └── logistic-regression.png
+   │   └── linear-regression/
+   │       ├── intro.png
+   │       └── comparison.png
+   ├── generate_images.py         # 图片生成脚本
+   └── classification.md          # 教程文档
+   ```
+
+3. **图片生成流程**
+   ```bash
+   # 1. 生成图片
+   cd ml-basics
+   python generate_images.py
+   
+   # 2. 检查图片质量
+   open images/classification/*.png
+   
+   # 3. 上传到CDN
+   python ../tools/upload_images_to_cdn.py classification.md
+   ```
+
+4. **图片引用规范**
+   - 在markdown中首先使用本地路径
+   ```markdown
+   ![分类算法概述](./images/classification/overview.png)
+   ```
+   - 上传到CDN后更新为CDN路径
+   ```markdown
+   ![分类算法概述](https://z1.zve.cn/tutorial/classification/overview.png)
+   ```
+
+5. **图片更新流程**
+   - 修改generate_images.py生成新图片
+   - 在本地确认图片效果
+   - 提交代码，包含：
+     1. generate_images.py的修改
+     2. 新生成的图片文件
+     3. 教程文档的更新
+   - 上传到CDN并更新文档中的链接
+   - 再次提交文档更新
+
+6. **图片质量要求**
+   - 分辨率：至少300dpi
+   - 格式：优先使用PNG格式
+   - 大小：单张图片不超过500KB
+   - 配色：使用统一的配色方案
+   - 字体：使用支持中文的无衬线字体
+
+7. **版本控制**
+   - 图片文件必须纳入版本控制
+   - 保留generate_images.py的修改历史
+   - 图片更新时同时更新生成脚本
 
 #### 2.3 CDN托管
 - 所有图片需上传到七牛云
 - 使用语义化的文件名，保持与本地文件名一致
 - CDN URL格式：`https://z1.zve.cn/tutorial/{教程名}/{filename}.png`
-  - 例如：`https://z1.zve.cn/tutorial/linear-regression/model-comparison.png`
-- 使用上传工具：
-```bash
-# 上传单个教程的所有图片
-python tools/upload_images_to_cdn.py ml-basics/linear-regression.md
-```
+  - 例如：`https://z1.zve.cn/tutorial/classification/logistic-regression.png`
 
 ### 3. 代码示例规范
 
