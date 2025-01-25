@@ -29,8 +29,45 @@ language: "zh-CN"
 
 ## 逻辑回归
 
-### 原理与实现
-逻辑回归是最基础的分类算法之一，常用于二分类问题。
+### 从线性回归到逻辑回归
+线性回归预测连续值，而分类问题需要预测离散类别。逻辑回归通过在线性回归的基础上添加sigmoid函数，将输出映射到[0,1]区间，从而实现二分类。
+
+![Sigmoid函数](https://z1.zve.cn/tutorial/images/sigmoid-function.png)
+*Sigmoid函数将任意实数映射到(0,1)区间*
+
+### 数学原理
+
+#### 1. 模型形式
+对于输入特征x，逻辑回归模型的预测概率为：
+
+```
+P(y=1|x) = σ(w^T x + b)
+```
+
+其中：
+- σ(z) = 1/(1+e^(-z)) 是sigmoid函数
+- w是权重向量
+- b是偏置项
+
+#### 2. 损失函数
+逻辑回归使用对数似然损失（Log Likelihood Loss）：
+
+```
+L(w) = -∑[y_i log(p_i) + (1-y_i)log(1-p_i)]
+```
+
+这个损失函数的特点：
+- 当预测正确时，损失接近0
+- 当预测错误时，损失很大
+- 是一个凸函数，可以保证找到全局最优解
+
+#### 3. 优化方法
+使用梯度下降法优化：
+1. 计算损失函数对w的梯度
+2. 沿着梯度的反方向更新参数
+3. 重复直到收敛
+
+### 实现示例
 
 ```python
 import numpy as np
@@ -38,43 +75,58 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.datasets import make_classification
 
 # 生成示例数据
-X, y = make_classification(n_samples=1000, n_features=20, n_classes=2,
-                         random_state=42)
+X, y = make_classification(
+    n_samples=1000,    # 样本数
+    n_features=20,     # 特征数
+    n_classes=2,       # 类别数
+    random_state=42
+)
 
 # 创建和训练模型
-model = LogisticRegression()
+model = LogisticRegression(
+    penalty='l2',      # L2正则化
+    C=1.0,            # 正则化强度的倒数
+    solver='lbfgs'     # 优化算法
+)
 model.fit(X, y)
 
-# 预测
-y_pred = model.predict(X)
-y_prob = model.predict_proba(X)
+# 预测概率和类别
+y_prob = model.predict_proba(X)    # 预测概率
+y_pred = model.predict(X)          # 预测类别
 ```
 
-### 决策边界可视化
-```python
-def plot_decision_boundary(X, y, model, title="决策边界"):
-    """
-    绘制二维数据的决策边界
-    """
-    import matplotlib.pyplot as plt
-    
-    h = .02  # 网格步长
-    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
+### 优缺点分析
 
-    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
-    Z = Z.reshape(xx.shape)
-    
-    plt.figure(figsize=(10, 8))
-    plt.contourf(xx, yy, Z, alpha=0.4)
-    plt.scatter(X[:, 0], X[:, 1], c=y, alpha=0.8)
-    plt.xlabel("特征1")
-    plt.ylabel("特征2")
-    plt.title(title)
-    plt.show()
-```
+优点：
+1. 模型简单，计算效率高
+2. 可解释性强
+3. 不易过拟合
+4. 可以输出概率
+5. 可以使用正则化
+
+缺点：
+1. 假设特征之间相互独立
+2. 只能处理线性可分的问题
+3. 对异常值敏感
+4. 要求特征和目标变量之间是Sigmoid关系
+
+### 应用场景
+
+逻辑回归适用于：
+1. 需要概率输出的场景
+   - 垃圾邮件检测
+   - 疾病风险预测
+   - 信用评分
+
+2. 需要可解释性的场景
+   - 医疗诊断
+   - 金融风控
+   - 营销预测
+
+3. 特征之间相对独立的场景
+   - 文本分类
+   - 简单图像分类
+   - 用户行为预测
 
 ## K近邻算法(KNN)
 
