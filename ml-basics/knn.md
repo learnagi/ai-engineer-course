@@ -35,7 +35,7 @@ K近邻（K-Nearest Neighbors，KNN）算法是一种简单而强大的分类和
 
 KNN的核心思想是：一个样本的类别由其最近的K个邻居的"投票"决定。这就像我们在生活中常说的"观察一个人，就看他/她的朋友圈"。
 
-![KNN决策边界示例](./images/knn_decision_boundary.png)
+![KNN决策边界示例](https://z1.zve.cn/tutorial/ml-basics/knn_decision_boundary.png)
 *左图展示了KNN的决策边界，右图显示了一个测试样本（绿星）的K=5近邻范围（虚线圆）*
 
 ### 1.2 算法步骤
