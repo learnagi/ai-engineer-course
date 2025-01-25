@@ -41,15 +41,16 @@ class ImageUploader:
             hasher.update(buf)
         return hasher.hexdigest()
     
-    def upload_file(self, local_file):
+    def upload_file(self, local_file, markdown_file):
         """上传单个文件到七牛云"""
         try:
             # 获取文件名
             filename = os.path.basename(local_file)
             
-            # 获取教程名称（从文件路径中提取）
-            # 例如：从 ml-basics/linear-regression/images/model.png 提取 linear-regression
-            tutorial_name = local_file.split('/images/')[0].split('/')[-1]
+            # 获取教程名称（从markdown文件路径中提取）
+            # 例如：从 ml-basics/linear-regression.md 提取 linear-regression
+            md_path = os.path.dirname(markdown_file)  # 获取markdown文件所在目录
+            tutorial_name = os.path.basename(md_path)  # 获取教程名称
             
             # 构建七牛云上的文件名
             key = f"tutorial/{tutorial_name}/{filename}"
@@ -104,7 +105,7 @@ def process_markdown_file(file_path, uploader):
                 
             # 上传图片
             print(f"上传图片: {abs_image_path}")
-            cdn_url = uploader.upload_file(abs_image_path)
+            cdn_url = uploader.upload_file(abs_image_path, file_path)  # 传入markdown文件路径以获取教程名称
             if cdn_url:
                 content = content.replace(match.group(0), f'![{alt_text}]({cdn_url})')
                 print(f"✓ 成功上传: {cdn_url}")
@@ -121,7 +122,7 @@ def process_markdown_file(file_path, uploader):
                         if alt_text.replace(' ', '-').lower() in local_file.lower():
                             local_image_path = os.path.join(os.path.dirname(file_path), 'images', local_file)
                             print(f"更新图片: {local_image_path}")
-                            cdn_url = uploader.upload_file(local_image_path)
+                            cdn_url = uploader.upload_file(local_image_path, file_path)
                             if cdn_url:
                                 content = content.replace(match.group(0), f'![{alt_text}]({cdn_url})')
                                 print(f"✓ 成功更新: {cdn_url}")
