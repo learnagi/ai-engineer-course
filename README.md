@@ -1,6 +1,6 @@
 ---
 title: "AI工程师养成指南：从机器学习到大模型开发"
-slug: "ai-engineer-guide"
+slug: "ai-engineer-course"
 description: "系统化的AI工程师培养课程，涵盖机器学习、深度学习、大模型开发及工程实践，助力开发者从入门到精通"
 author: "AI 学习团队"
 status: "published"
